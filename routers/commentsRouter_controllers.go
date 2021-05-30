@@ -7,6 +7,18 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["simple-store-api/controllers:MetadataPublicController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:MetadataPublicController"],
+        beego.ControllerComments{
+            Method: "GetAll",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(
+				param.New("limit"),
+				param.New("page"),
+			),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["simple-store-api/controllers:ObjectController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:ObjectController"],
         beego.ControllerComments{
             Method: "Post",

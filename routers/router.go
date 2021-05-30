@@ -25,6 +25,11 @@ func init() {
 				&controllers.UserController{},
 			),
 		),
+		beego.NSNamespace("/public/metadata",
+			beego.NSInclude(
+				&controllers.MetadataPublicController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
