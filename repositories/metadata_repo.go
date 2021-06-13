@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"net/http"
 	"simple-store-api/datatransfers"
 	"simple-store-api/models"
 
@@ -28,6 +29,11 @@ func (r *metadataRepository) GetAll(params *datatransfers.ListQueryParams) (meta
 	qs := r.db.Where("deleted_at ISNULL")
 	err = qs.Model(&models.Metadata{}).Count(&cnt).Error
 	if err != nil {
+		err = &datatransfers.CustomError{
+			Code:    0,
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		}
 		return
 	}
 
@@ -40,6 +46,13 @@ func (r *metadataRepository) GetAll(params *datatransfers.ListQueryParams) (meta
 	}
 
 	err = qs.Find(&metadatas).Error
+	if err != nil {
+		err = &datatransfers.CustomError{
+			Code:    0,
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		}
+	}
 	return
 }
 

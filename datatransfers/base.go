@@ -7,3 +7,13 @@ type ListQueryParams struct {
 	IsOnlyCount    bool
 	IsWithoutCount bool
 }
+
+type CustomError struct {
+	Code    int    `json:"code"`
+	Status  int    `json:"status"` // http status code
+	Message string `json:"message"`
+}
+
+func (ce *CustomError) Error() string {
+	return ce.Message
+}

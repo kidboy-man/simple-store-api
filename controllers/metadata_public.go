@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"net/http"
 	"simple-store-api/conf"
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
@@ -26,20 +25,11 @@ func (c *MetadataPublicController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *MetadataPublicController) GetAll(limit, page int) Response {
-	// dummy errors
-	errCust := &CustomError{
-		Code:    111,
-		Status:  http.StatusInternalServerError,
-		Message: "something went wrong",
-	}
+func (c *MetadataPublicController) GetAll(limit, page int) JSONResponse {
 	metadata, _, err := c.metadataUcase.GetAll(&datatransfers.ListQueryParams{
 		Limit: limit,
 		Page:  page,
 	})
-	if err != nil {
-		errCust.Message = err.Error()
-		return ReturnError(errCust)
-	}
-	return ReturnOK(metadata)
+
+	return ReturnJSONResponse(metadata, err)
 }
