@@ -6,6 +6,7 @@ type ListQueryParams struct {
 	Page           int
 	IsOnlyCount    bool
 	IsWithoutCount bool
+	IsPublic       bool
 }
 
 type CustomError struct {

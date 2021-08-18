@@ -36,6 +36,7 @@ func InitDB() {
 
 	conf.AppConfig.DbClient = conn
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Metadata{}) //Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Category{}) //Database migration
 }
 
 //returns a handle to the DB object
