@@ -1,0 +1,134 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "beego Test API",
+        "description": "beego has a very cool tools to autogenerate documents for your API",
+        "version": "1.0.0",
+        "termsOfService": "http://beego.me/",
+        "contact": {
+            "email": "astaxie@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "basePath": "/v1",
+    "paths": {
+        "/public/categories/": {
+            "get": {
+                "tags": [
+                    "public/categories"
+                ],
+                "summary": "Get All Categories (public)",
+                "description": "get only the active categories",
+                "operationId": "CategoryPublicController.Get All Categories (public)",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "limit of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/public/metadata/": {
+            "get": {
+                "tags": [
+                    "public/metadata"
+                ],
+                "description": "get all metadata",
+                "operationId": "MetadataPublicController.GetAll",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "limit of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/public/users/register": {
+            "post": {
+                "tags": [
+                    "public/users"
+                ],
+                "description": "register",
+                "operationId": "UserPublicController.Register",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/datatransfers.RegisterReques"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "datatransfers.RegisterReques": {
+            "title": "RegisterReques",
+            "type": "object"
+        }
+    },
+    "tags": [
+        {
+            "name": "public/metadata",
+            "description": "Operations about object\n"
+        },
+        {
+            "name": "public/categories",
+            "description": "Operations about object\n"
+        },
+        {
+            "name": "public/users",
+            "description": "Operations about object\n"
+        }
+    ]
+}

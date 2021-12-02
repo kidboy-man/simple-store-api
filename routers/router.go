@@ -26,6 +26,12 @@ func init() {
 				&controllers.CategoryPublicController{},
 			),
 		),
+
+		beego.NSNamespace("/public/users",
+			beego.NSInclude(
+				&controllers.UserPublicController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

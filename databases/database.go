@@ -26,7 +26,7 @@ func InitDB() {
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
 
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password) //Build connection string
+	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password) // Build connection string
 	fmt.Println(dbUri)
 
 	conn, err := gorm.Open(postgres.Open(dbUri), &gorm.Config{})
@@ -35,11 +35,12 @@ func InitDB() {
 	}
 
 	conf.AppConfig.DbClient = conn
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Metadata{}) //Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Category{}) //Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Metadata{}) // Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Category{}) // Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.User{})     // Database migration
 }
 
-//returns a handle to the DB object
+// returns a handle to the DB object
 func GetDB() *gorm.DB {
 	return db
 }
