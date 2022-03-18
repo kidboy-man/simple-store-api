@@ -22,7 +22,7 @@ func (c *UserPublicController) Prepare() {
 // @Description register
 // @Success 200
 // @Failure 403
-// @Param params body datatransfers.RegisterReques true "body of this request"
+// @Param params body datatransfers.RegisterRequest true "body of this request"
 // @router /register [post]
 func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) JSONResponse {
 	err := c.userUcase.Register(params)

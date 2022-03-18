@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "beego Test API",
+        "title": "Simple Store API",
         "description": "beego has a very cool tools to autogenerate documents for your API",
         "version": "1.0.0",
         "termsOfService": "http://beego.me/",
@@ -96,7 +96,7 @@
                         "description": "body of this request",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/datatransfers.RegisterReques"
+                            "$ref": "#/definitions/datatransfers.RegisterRequest"
                         }
                     }
                 ],
@@ -112,9 +112,20 @@
         }
     },
     "definitions": {
-        "datatransfers.RegisterReques": {
-            "title": "RegisterReques",
-            "type": "object"
+        "datatransfers.RegisterRequest": {
+            "title": "RegisterRequest",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         }
     },
     "tags": [

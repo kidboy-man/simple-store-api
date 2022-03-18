@@ -1,5 +1,5 @@
 // @APIVersion 1.0.0
-// @Title beego Test API
+// @Title Simple Store API
 // @Description beego has a very cool tools to autogenerate documents for your API
 // @Contact astaxie@gmail.com
 // @TermsOfServiceUrl http://beego.me/
@@ -8,12 +8,14 @@
 package routers
 
 import (
+	"fmt"
 	"simple-store-api/controllers"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
+	fmt.Println("ROUTER INITIATED")
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/public/metadata",
 			beego.NSInclude(
