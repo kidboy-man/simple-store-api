@@ -8,14 +8,14 @@
 package routers
 
 import (
-	"fmt"
+	"log"
 	"simple-store-api/controllers"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
-	fmt.Println("ROUTER INITIATED")
+	log.Println("ROUTER INITIATED")
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/public/metadata",
 			beego.NSInclude(
