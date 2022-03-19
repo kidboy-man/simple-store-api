@@ -20,6 +20,7 @@ func (c *UserPublicController) Prepare() {
 
 // @Title Register
 // @Description register
+// @Summary register
 // @Success 200
 // @Failure 403
 // @Param params body datatransfers.RegisterRequest true "body of this request"
@@ -31,9 +32,10 @@ func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) J
 
 // @Title Login
 // @Description login
+// @Summary login
 // @Success 200
 // @Failure 403
-// @Param params body datatransfers.LoginRequest true "body of this request"
+// @Param params body models.User true "body of this request"
 // @router /login [post]
 func (c *UserPublicController) Login(params *datatransfers.LoginRequest) JSONResponse {
 	user, err := c.userUcase.Login(params)

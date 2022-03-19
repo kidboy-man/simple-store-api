@@ -18,8 +18,9 @@ func (c *CategoryPublicController) Prepare() {
 	c.categoryUcase = usecase.NewCategoryUsecase(conf.AppConfig.DbClient)
 }
 
-// @Title Get All Categories (public)
-// @Summary Get All Categories (public)
+// @Title Get All Categories
+// @Summary Get All Categories
+// @Summary Get All Categories
 // @Description get only the active categories
 // @Param limit query int false "limit of this request"
 // @Param page query int false "page of this request"

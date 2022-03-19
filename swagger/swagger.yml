@@ -15,9 +15,9 @@ paths:
     get:
       tags:
       - public/categories
-      summary: Get All Categories (public)
+      summary: Get All Categories
       description: get only the active categories
-      operationId: CategoryPublicController.Get All Categories (public)
+      operationId: CategoryPublicController.Get All Categories
       parameters:
       - in: query
         name: limit
@@ -38,6 +38,7 @@ paths:
     get:
       tags:
       - public/metadata
+      summary: get all metadata
       description: get all metadata
       operationId: MetadataPublicController.GetAll
       parameters:
@@ -60,6 +61,7 @@ paths:
     post:
       tags:
       - public/users
+      summary: login
       description: login
       operationId: UserPublicController.Login
       parameters:
@@ -68,7 +70,7 @@ paths:
         description: body of this request
         required: true
         schema:
-          $ref: '#/definitions/datatransfers.LoginRequest'
+          $ref: '#/definitions/models.User'
       responses:
         "200":
           description: ""
@@ -78,6 +80,7 @@ paths:
     post:
       tags:
       - public/users
+      summary: register
       description: register
       operationId: UserPublicController.Register
       parameters:
@@ -93,14 +96,6 @@ paths:
         "403":
           description: ""
 definitions:
-  datatransfers.LoginRequest:
-    title: LoginRequest
-    type: object
-    properties:
-      password:
-        type: string
-      username:
-        type: string
   datatransfers.RegisterRequest:
     title: RegisterRequest
     type: object
@@ -109,6 +104,27 @@ definitions:
         type: string
       password:
         type: string
+      username:
+        type: string
+  models.User:
+    title: User
+    type: object
+    properties:
+      createdAt:
+        type: string
+        format: datetime
+      email:
+        type: string
+      id:
+        type: integer
+        format: int32
+      password:
+        type: string
+      token:
+        type: string
+      updatedAt:
+        type: string
+        format: datetime
       username:
         type: string
 tags:

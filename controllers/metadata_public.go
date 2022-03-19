@@ -20,6 +20,7 @@ func (c *MetadataPublicController) Prepare() {
 
 // @Title GetAll
 // @Description get all metadata
+// @Summary get all metadata
 // @Param limit query int false "limit of this request"
 // @Param page query int false "page of this request"
 // @Success 200
