@@ -33,6 +33,17 @@ func init() {
 
     beego.GlobalControllerRouter["simple-store-api/controllers:UserPublicController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:UserPublicController"],
         beego.ControllerComments{
+            Method: "Login",
+            Router: "/login",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(
+				param.New("params", param.IsRequired, param.InBody),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:UserPublicController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:UserPublicController"],
+        beego.ControllerComments{
             Method: "Register",
             Router: "/register",
             AllowHTTPMethods: []string{"post"},

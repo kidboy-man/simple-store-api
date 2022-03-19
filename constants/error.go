@@ -18,4 +18,6 @@ const (
 	RegisterEmailNotAvailableErrCode = 3001 + iota
 	RegisterUsernameNotAvailableErrCode
 	HashPasswordInternalErrCode
+	LoginUsernameNotFoundErrCode
+	LoginInvalidPasswordErrCode
 )

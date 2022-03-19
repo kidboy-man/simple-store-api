@@ -28,3 +28,14 @@ func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) J
 	err := c.userUcase.Register(params)
 	return ReturnJSONResponse(nil, err)
 }
+
+// @Title Login
+// @Description login
+// @Success 200
+// @Failure 403
+// @Param params body datatransfers.LoginRequest true "body of this request"
+// @router /login [post]
+func (c *UserPublicController) Login(params *datatransfers.LoginRequest) JSONResponse {
+	user, err := c.userUcase.Login(params)
+	return ReturnJSONResponse(user, err)
+}

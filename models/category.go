@@ -15,7 +15,7 @@ type Category struct {
 	IsActive    *bool          `json:"isActive"`
 	CreatedAt   time.Time      `json:"createdAt"`
 	UpdatedAt   time.Time      `json:"updatedAt"`
-	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deletedAt"`
+	DeletedAt   gorm.DeletedAt `json:"deletedAt"`
 }
 
 func (Category) TableName() string {

@@ -17,6 +17,7 @@ type UserUsecase interface {
 	Delete(user *models.User) (err error)
 	GetAll(param *datatransfers.ListQueryParams) (users []*models.User, cnt int64, err error)
 	GetByID(userID int) (user *models.User, err error)
+	Login(params *datatransfers.LoginRequest) (user *models.User, err error)
 	Register(params *datatransfers.RegisterRequest) (err error)
 	Update(user *models.User) (err error)
 }
@@ -98,5 +99,27 @@ func (u *userUsecase) Register(params *datatransfers.RegisterRequest) (err error
 		Email:    params.Email,
 		Password: hashedPassword,
 	}, u.db)
+
+	// TODO: generate token
 	return
+}
+
+func (u *userUsecase) Login(params *datatransfers.LoginRequest) (user *models.User, err error) {
+	user, err = u.userRepo.GetByUsername(params.Username)
+	if err != nil {
+		return
+	}
+
+	isPasswordMatched := helpers.CheckPasswordHash(params.Password, user.Password)
+	if !isPasswordMatched {
+		err = &datatransfers.CustomError{
+			Code:    constants.LoginInvalidPasswordErrCode,
+			Status:  http.StatusBadRequest,
+			Message: "INVALID_PASSWORD",
+		}
+		return nil, err
+	}
+
+	// TODO: generate token
+	return user, nil
 }

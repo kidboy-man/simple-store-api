@@ -82,6 +82,34 @@
                 }
             }
         },
+        "/public/users/login": {
+            "post": {
+                "tags": [
+                    "public/users"
+                ],
+                "description": "login",
+                "operationId": "UserPublicController.Login",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/datatransfers.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/public/users/register": {
             "post": {
                 "tags": [
@@ -112,6 +140,18 @@
         }
     },
     "definitions": {
+        "datatransfers.LoginRequest": {
+            "title": "LoginRequest",
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "datatransfers.RegisterRequest": {
             "title": "RegisterRequest",
             "type": "object",
