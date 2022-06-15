@@ -5,17 +5,24 @@ import (
 	"log"
 	"net/http"
 	"simple-store-api/datatransfers"
+
+	"github.com/beego/beego/v2/server/web/context"
+	"github.com/beego/beego/v2/server/web/pagination"
 )
 
 type JSONResponse struct {
-	Success bool        `json:"success"`
-	Status  int         `json:"status"` // http status code
-	Data    interface{} `json:"data"`
-	Error   error       `json:"error"`
-	// TODO pagination
+	Success     bool        `json:"success"`
+	Status      int         `json:"status"` // http status code
+	Data        interface{} `json:"data"`
+	Error       error       `json:"error"`
+	CurrentPage int         `json:"currentPage"`
+	TotalPages  int         `json:"totalPages"`
+	DataPerPage int         `json:"dataPerPage"`
+	HasNextPage bool        `json:"hasNextPage"`
+	HasPrevPage bool        `json:"hasPrevPage"`
 }
 
-func doReturnOK(obj interface{}) (response JSONResponse) {
+func doReturnOK(response *JSONResponse, obj interface{}) {
 	response.Success = true
 	response.Status = http.StatusOK
 	json, err := json.Marshal(obj)
@@ -26,7 +33,7 @@ func doReturnOK(obj interface{}) (response JSONResponse) {
 	return
 }
 
-func doReturnNotOK(err error) (response JSONResponse) {
+func doReturnNotOK(response *JSONResponse, err error) {
 	response.Success = false
 	response.Status = http.StatusInternalServerError
 	if v, ok := err.(*datatransfers.CustomError); ok {
@@ -39,10 +46,27 @@ func doReturnNotOK(err error) (response JSONResponse) {
 	return
 }
 
-func ReturnJSONResponse(obj interface{}, err error) (response JSONResponse) {
+func (j *JSONResponse) ReturnJSONResponse(obj interface{}, err error) (response *JSONResponse) {
 	if err != nil {
-		return doReturnNotOK(err)
+		doReturnNotOK(j, err)
+		return
 	}
 
-	return doReturnOK(obj)
+	doReturnOK(j, obj)
+	return
+}
+
+func (j *JSONResponse) SetPagination(ctx *context.Context, totalData int64, limit, page int) {
+	log.Println("totalData", totalData)
+	log.Println("limit", limit)
+	paginator := pagination.SetPaginator(ctx, limit, totalData)
+
+	j.CurrentPage = page
+	j.TotalPages = paginator.PageNums()
+	log.Println("response", j.TotalPages)
+	j.DataPerPage = limit
+	j.HasNextPage = paginator.HasNext()
+	j.HasPrevPage = paginator.HasPrev()
+	log.Println("response", j)
+	return
 }

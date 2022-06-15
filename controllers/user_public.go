@@ -25,9 +25,10 @@ func (c *UserPublicController) Prepare() {
 // @Failure 403
 // @Param params body datatransfers.RegisterRequest true "body of this request"
 // @router /register [post]
-func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) JSONResponse {
+func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) (response JSONResponse) {
 	err := c.userUcase.Register(params)
-	return ReturnJSONResponse(nil, err)
+	response.ReturnJSONResponse(nil, err)
+	return
 }
 
 // @Title Login
@@ -37,7 +38,8 @@ func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) J
 // @Failure 403
 // @Param params body models.User true "body of this request"
 // @router /login [post]
-func (c *UserPublicController) Login(params *datatransfers.LoginRequest) JSONResponse {
+func (c *UserPublicController) Login(params *datatransfers.LoginRequest) (response JSONResponse) {
 	user, err := c.userUcase.Login(params)
-	return ReturnJSONResponse(user, err)
+	response.ReturnJSONResponse(user, err)
+	return
 }

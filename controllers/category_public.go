@@ -4,6 +4,7 @@ import (
 	"simple-store-api/conf"
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
+	"simple-store-api/utils"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -27,12 +28,15 @@ func (c *CategoryPublicController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *CategoryPublicController) GetAll(limit, page int) JSONResponse {
-	category, _, err := c.categoryUcase.GetAll(&datatransfers.ListQueryParams{
+func (c *CategoryPublicController) GetAll(limit, page int) (response JSONResponse) {
+	category, totalData, err := c.categoryUcase.GetAll(&datatransfers.ListQueryParams{
 		Limit:    limit,
 		Page:     page,
+		Offset:   utils.CalculateOffset(limit, page),
 		IsPublic: true,
 	})
 
-	return ReturnJSONResponse(category, err)
+	response.SetPagination(c.Ctx, totalData, limit, page)
+	response.ReturnJSONResponse(category, err)
+	return
 }
