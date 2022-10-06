@@ -1,6 +1,6 @@
 package datatransfers
 
-type ListQueryParams struct {
+type BaseQueryParams struct {
 	Limit          int
 	Offset         int
 	Page           int

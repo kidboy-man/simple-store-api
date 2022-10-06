@@ -11,7 +11,7 @@ import (
 type CategoryUsecase interface {
 	Create(category *models.Category) (err error)
 	Delete(category *models.Category) (err error)
-	GetAll(param *datatransfers.ListQueryParams) (categories []*models.Category, cnt int64, err error)
+	GetAll(param *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error)
 	GetByID(categoryID int) (category *models.Category, err error)
 	Update(category *models.Category) (err error)
 }
@@ -29,7 +29,7 @@ func NewCategoryUsecase(db *gorm.DB) CategoryUsecase {
 	}
 }
 
-func (u *categoryUsecase) GetAll(param *datatransfers.ListQueryParams) (categories []*models.Category, cnt int64, err error) {
+func (u *categoryUsecase) GetAll(param *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error) {
 	categories, cnt, err = u.categoryRepo.GetAll(param)
 	return
 }

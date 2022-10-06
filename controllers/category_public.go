@@ -29,11 +29,13 @@ func (c *CategoryPublicController) Prepare() {
 // @Failure 403
 // @router / [get]
 func (c *CategoryPublicController) GetAll(limit, page int) (response JSONResponse) {
-	category, totalData, err := c.categoryUcase.GetAll(&datatransfers.ListQueryParams{
-		Limit:    limit,
-		Page:     page,
-		Offset:   utils.CalculateOffset(limit, page),
-		IsPublic: true,
+	category, totalData, err := c.categoryUcase.GetAll(&datatransfers.CategoryQueryParams{
+		BaseQueryParams: datatransfers.BaseQueryParams{
+			Limit:    limit,
+			Page:     page,
+			Offset:   utils.CalculateOffset(limit, page),
+			IsPublic: true,
+		},
 	})
 
 	response.SetPagination(c.Ctx, totalData, limit, page)

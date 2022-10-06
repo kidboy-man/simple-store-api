@@ -14,7 +14,7 @@ import (
 type UserRepository interface {
 	Create(user *models.User, db *gorm.DB) (err error)
 	Delete(user *models.User, db *gorm.DB) (err error)
-	GetAll(params *datatransfers.ListQueryParams) (users []*models.User, cnt int64, err error)
+	GetAll(params *datatransfers.UserQueryParams) (users []*models.User, cnt int64, err error)
 	GetByEmail(email string) (user *models.User, err error)
 	GetByID(userID int) (user *models.User, err error)
 	GetByUsername(username string) (user *models.User, err error)
@@ -28,19 +28,29 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{db: db}
 }
 
-func (r *userRepository) GetAll(params *datatransfers.ListQueryParams) (users []*models.User, cnt int64, err error) {
+func (r *userRepository) GetAll(params *datatransfers.UserQueryParams) (users []*models.User, cnt int64, err error) {
 	qs := r.db
-	if params.IsPublic {
-		qs = qs.Where("is_active = ?", true)
+	if len(params.Emails) > 0 {
+		qs = qs.Where("email IN (?)", params.Emails)
 	}
 
-	err = qs.Model(&models.User{}).Count(&cnt).Error
-	if err != nil {
-		err = &datatransfers.CustomError{
-			Code:    constants.QueryInternalServerErrCode,
-			Status:  http.StatusInternalServerError,
-			Message: err.Error(),
+	if len(params.Usernames) > 0 {
+		qs = qs.Where("username IN (?)", params.Usernames)
+	}
+
+	if !params.IsWithoutCount {
+		err = qs.Model(&models.User{}).Count(&cnt).Error
+		if err != nil {
+			err = &datatransfers.CustomError{
+				Code:    constants.QueryInternalServerErrCode,
+				Status:  http.StatusInternalServerError,
+				Message: err.Error(),
+			}
+			return
 		}
+	}
+
+	if params.IsOnlyCount {
 		return
 	}
 

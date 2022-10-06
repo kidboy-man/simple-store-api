@@ -12,7 +12,7 @@ import (
 type MetadataRepository interface {
 	Create(metadata *models.Metadata, db *gorm.DB) (err error)
 	Delete(metadata *models.Metadata, db *gorm.DB) (err error)
-	GetAll(params *datatransfers.ListQueryParams) (metadatas []*models.Metadata, cnt int64, err error)
+	GetAll(params *datatransfers.BaseQueryParams) (metadatas []*models.Metadata, cnt int64, err error)
 	GetByID(metadataID int) (metadata *models.Metadata, err error)
 	GetByType(metadataType string) (metadata *models.Metadata, err error)
 	Update(metadata *models.Metadata, db *gorm.DB) (err error)
@@ -25,7 +25,7 @@ func NewMetadataRepository(db *gorm.DB) MetadataRepository {
 	return &metadataRepository{db: db}
 }
 
-func (r *metadataRepository) GetAll(params *datatransfers.ListQueryParams) (metadatas []*models.Metadata, cnt int64, err error) {
+func (r *metadataRepository) GetAll(params *datatransfers.BaseQueryParams) (metadatas []*models.Metadata, cnt int64, err error) {
 	qs := r.db.Where("deleted_at ISNULL")
 	err = qs.Model(&models.Metadata{}).Count(&cnt).Error
 	if err != nil {

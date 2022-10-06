@@ -11,7 +11,7 @@ import (
 type MetadataUsecase interface {
 	Create(metadata *models.Metadata) (err error)
 	Delete(metadata *models.Metadata) (err error)
-	GetAll(param *datatransfers.ListQueryParams) (metadatas []*models.Metadata, cnt int64, err error)
+	GetAll(param *datatransfers.BaseQueryParams) (metadatas []*models.Metadata, cnt int64, err error)
 	GetByID(metadataID int) (metadata *models.Metadata, err error)
 	GetByType(slug string) (metadata *models.Metadata, err error)
 	Update(metadata *models.Metadata) (err error)
@@ -30,7 +30,7 @@ func NewMetadataUsecase(db *gorm.DB) MetadataUsecase {
 	}
 }
 
-func (u *metadataUsecase) GetAll(param *datatransfers.ListQueryParams) (metadatas []*models.Metadata, cnt int64, err error) {
+func (u *metadataUsecase) GetAll(param *datatransfers.BaseQueryParams) (metadatas []*models.Metadata, cnt int64, err error) {
 	metadatas, cnt, err = u.metadataRepo.GetAll(param)
 	return
 }

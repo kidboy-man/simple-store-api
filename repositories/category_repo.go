@@ -2,6 +2,7 @@ package repository
 
 import (
 	"net/http"
+	"simple-store-api/constants"
 	"simple-store-api/datatransfers"
 	"simple-store-api/models"
 
@@ -12,7 +13,7 @@ import (
 type CategoryRepository interface {
 	Create(category *models.Category, db *gorm.DB) (err error)
 	Delete(category *models.Category, db *gorm.DB) (err error)
-	GetAll(params *datatransfers.ListQueryParams) (categories []*models.Category, cnt int64, err error)
+	GetAll(params *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error)
 	GetByID(categoryID int) (category *models.Category, err error)
 	Update(category *models.Category, db *gorm.DB) (err error)
 }
@@ -24,19 +25,25 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 	return &categoryRepository{db: db}
 }
 
-func (r *categoryRepository) GetAll(params *datatransfers.ListQueryParams) (categories []*models.Category, cnt int64, err error) {
+func (r *categoryRepository) GetAll(params *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error) {
 	qs := r.db
 	if params.IsPublic {
 		qs = qs.Where("is_active = ?", true)
 	}
 
-	err = qs.Model(&models.Category{}).Count(&cnt).Error
-	if err != nil {
-		err = &datatransfers.CustomError{
-			Code:    0,
-			Status:  http.StatusInternalServerError,
-			Message: err.Error(),
+	if !params.IsWithoutCount {
+		err = qs.Model(&models.Category{}).Count(&cnt).Error
+		if err != nil {
+			err = &datatransfers.CustomError{
+				Code:    constants.QueryInternalServerErrCode,
+				Status:  http.StatusInternalServerError,
+				Message: err.Error(),
+			}
+			return
 		}
+	}
+
+	if params.IsOnlyCount {
 		return
 	}
 
@@ -51,7 +58,7 @@ func (r *categoryRepository) GetAll(params *datatransfers.ListQueryParams) (cate
 	err = qs.Find(&categories).Error
 	if err != nil {
 		err = &datatransfers.CustomError{
-			Code:    0,
+			Code:    constants.QueryInternalServerErrCode,
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
@@ -63,8 +70,17 @@ func (r *categoryRepository) GetByID(categoryID int) (category *models.Category,
 	qs := r.db.Where("id = ?", categoryID)
 	err = qs.First(category).Error
 	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			err = &datatransfers.CustomError{
+				Code:    constants.QueryNotFoundErrCode,
+				Status:  http.StatusInternalServerError,
+				Message: err.Error(),
+			}
+			return
+		}
+
 		err = &datatransfers.CustomError{
-			Code:    0,
+			Code:    constants.QueryInternalServerErrCode,
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
@@ -76,7 +92,7 @@ func (r *categoryRepository) Create(category *models.Category, db *gorm.DB) (err
 	err = db.Omit(clause.Associations).Model(category).Create(category).Error
 	if err != nil {
 		err = &datatransfers.CustomError{
-			Code:    0,
+			Code:    constants.QueryInternalServerErrCode,
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
@@ -86,28 +102,41 @@ func (r *categoryRepository) Create(category *models.Category, db *gorm.DB) (err
 
 func (r *categoryRepository) Update(category *models.Category, db *gorm.DB) (err error) {
 	row := db.Omit(clause.Associations).Model(category).Updates(category)
-	if row.RowsAffected == 0 {
-		err = gorm.ErrRecordNotFound
-		return
+	err = row.Error
+	if err != nil {
+		err = &datatransfers.CustomError{
+			Code:    constants.QueryInternalServerErrCode,
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		}
 	}
 
-	err = row.Error
+	if row.RowsAffected == 0 {
+		err = &datatransfers.CustomError{
+			Code:    constants.QueryNotFoundErrCode,
+			Status:  http.StatusInternalServerError,
+			Message: gorm.ErrRecordNotFound.Error(),
+		}
+	}
 	return
 }
 
 func (r *categoryRepository) Delete(category *models.Category, db *gorm.DB) (err error) {
 	row := db.Omit(clause.Associations).Model(category).Delete(category)
-	if row.RowsAffected == 0 {
-		err = gorm.ErrRecordNotFound
-		return
-	}
-
 	err = row.Error
 	if err != nil {
 		err = &datatransfers.CustomError{
-			Code:    0,
+			Code:    constants.QueryInternalServerErrCode,
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
+		}
+	}
+
+	if row.RowsAffected == 0 {
+		err = &datatransfers.CustomError{
+			Code:    constants.QueryNotFoundErrCode,
+			Status:  http.StatusInternalServerError,
+			Message: gorm.ErrRecordNotFound.Error(),
 		}
 	}
 	return

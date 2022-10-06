@@ -27,7 +27,7 @@ func (c *MetadataPublicController) Prepare() {
 // @Failure 403
 // @router / [get]
 func (c *MetadataPublicController) GetAll(limit, page int) (response JSONResponse) {
-	metadata, _, err := c.metadataUcase.GetAll(&datatransfers.ListQueryParams{
+	metadata, _, err := c.metadataUcase.GetAll(&datatransfers.BaseQueryParams{
 		Limit: limit,
 		Page:  page,
 	})

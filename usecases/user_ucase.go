@@ -15,7 +15,7 @@ import (
 type UserUsecase interface {
 	Create(user *models.User) (err error)
 	Delete(user *models.User) (err error)
-	GetAll(param *datatransfers.ListQueryParams) (users []*models.User, cnt int64, err error)
+	GetAll(param *datatransfers.UserQueryParams) (users []*models.User, cnt int64, err error)
 	GetByID(userID int) (user *models.User, err error)
 	Login(params *datatransfers.LoginRequest) (user *models.User, err error)
 	Register(params *datatransfers.RegisterRequest) (err error)
@@ -35,7 +35,7 @@ func NewUserUsecase(db *gorm.DB) UserUsecase {
 	}
 }
 
-func (u *userUsecase) GetAll(param *datatransfers.ListQueryParams) (users []*models.User, cnt int64, err error) {
+func (u *userUsecase) GetAll(param *datatransfers.UserQueryParams) (users []*models.User, cnt int64, err error) {
 	users, cnt, err = u.userRepo.GetAll(param)
 	return
 }

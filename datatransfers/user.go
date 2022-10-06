@@ -10,3 +10,10 @@ type LoginRequest struct {
 	Username string `validate:"required" json:"username"`
 	Password string `validate:"required" json:"password"`
 }
+
+type UserQueryParams struct {
+	BaseQueryParams
+	Usernames []string
+	Emails    []string
+	Search    string
+}
