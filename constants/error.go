@@ -5,6 +5,7 @@ const (
 	InternalServerErrCode = 1001 + iota
 	BadRequesErrCode
 	NotAuthorizedErrCode
+	OrmHookDataErrCode
 )
 
 // repositories

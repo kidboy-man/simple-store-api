@@ -1,6 +1,9 @@
 package models
 
 import (
+	"net/http"
+	"simple-store-api/constants"
+	"simple-store-api/datatransfers"
 	"strings"
 	"time"
 
@@ -13,8 +16,8 @@ type User struct {
 	Password  string    `gorm:"type:varchar(255)" validate:"required" json:"password"`
 	Email     string    `gorm:"index;unique;type:varchar(255)" validate:"required,email" json:"email"`
 	Token     string    `gorm:"-" json:"token"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt time.Time `gorm:"autoCreateTime;<-:create" json:"createdAt"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
 }
 
 func (User) TableName() string {
@@ -27,6 +30,16 @@ func (u *User) setAttr() {
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	// should be handled at max in usecase,
+	// so, if this passes through here, we are lacking of validations
+	if u.Username == "" || u.Password == "" {
+		err = &datatransfers.CustomError{
+			Code:    constants.OrmHookDataErrCode,
+			Status:  http.StatusInternalServerError,
+			Message: "INCOMPLETE_AUTH_DATA",
+		}
+		return
+	}
 	u.setAttr()
 	return
 }

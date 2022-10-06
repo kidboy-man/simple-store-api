@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"simple-store-api/conf"
 	"simple-store-api/models"
@@ -16,9 +17,9 @@ var db *gorm.DB //database
 
 func InitDB() {
 
-	e := godotenv.Load() //Load .env file
-	if e != nil {
-		fmt.Print(e)
+	err := godotenv.Load() //Load .env file
+	if err != nil {
+		panic(err)
 	}
 
 	username := os.Getenv("db_user")
@@ -28,11 +29,11 @@ func InitDB() {
 	dbPort := os.Getenv("db_port")
 
 	dbUri := fmt.Sprintf("host=%s port=%s, user=%s dbname=%s sslmode=disable password=%s", dbHost, dbPort, username, dbName, password) // Build connection string
-	fmt.Println(dbUri)
+	log.Println(dbUri)
 
 	conn, err := gorm.Open(postgres.Open(dbUri), &gorm.Config{})
 	if err != nil {
-		fmt.Print(err)
+		panic(err)
 	}
 
 	conf.AppConfig.DbClient = conn
