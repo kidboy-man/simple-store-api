@@ -13,12 +13,14 @@ type Category struct {
 	ID          uint           `gorm:"primaryKey" json:"id"`
 	Name        string         `gorm:"unique;type:varchar(255)" json:"name"`
 	Image       string         `gorm:"type:varchar(255)" json:"image"`
-	Description string         `gorm:"type:text(255)" json:"description"`
+	Description string         `gorm:"type:text" json:"description"`
 	Sort        int            `gorm:"type:integer" json:"sort"`
 	IsActive    *bool          `gorm:"type:boolean" json:"isActive"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime;<-:create" json:"createdAt"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
 	DeletedAt   gorm.DeletedAt `json:"deletedAt"`
+
+	Products []*Product `json:"products"`
 }
 
 func (Category) TableName() string {

@@ -40,6 +40,9 @@ func InitDB() {
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Metadata{}) // Database migration
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Category{}) // Database migration
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.User{})     // Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Product{})  // Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Variant{})  // Database migration
+
 }
 
 // returns a handle to the DB object
