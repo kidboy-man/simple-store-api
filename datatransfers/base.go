@@ -7,6 +7,7 @@ type BaseQueryParams struct {
 	IsOnlyCount    bool
 	IsWithoutCount bool
 	IsPublic       bool
+	Search         string
 }
 
 type CustomError struct {

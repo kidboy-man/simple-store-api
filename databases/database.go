@@ -42,6 +42,7 @@ func InitDB() {
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.User{})     // Database migration
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Product{})  // Database migration
 	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Variant{})  // Database migration
+	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Price{})    // Database migration
 
 }
 

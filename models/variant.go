@@ -14,6 +14,7 @@ type Variant struct {
 	Image       string         `gorm:"type:varchar(255)" json:"image"`
 	Description string         `gorm:"type:text" json:"description"`
 	Sort        int            `gorm:"type:integer" json:"sort"`
+	Stock       int            `gorm:"type:integer" json:"stock"`
 	IsActive    *bool          `gorm:"type:boolean" json:"isActive"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime;<-:create" json:"createdAt"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`

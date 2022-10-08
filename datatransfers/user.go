@@ -15,5 +15,4 @@ type UserQueryParams struct {
 	BaseQueryParams
 	Usernames []string
 	Emails    []string
-	Search    string
 }
