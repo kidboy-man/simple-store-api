@@ -14,7 +14,7 @@ type CategoryRepository interface {
 	Create(category *models.Category, db *gorm.DB) (err error)
 	Delete(category *models.Category, db *gorm.DB) (err error)
 	GetAll(params *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error)
-	GetByID(categoryID int) (category *models.Category, err error)
+	GetByID(categoryID uint) (category *models.Category, err error)
 	Update(category *models.Category, db *gorm.DB) (err error)
 }
 type categoryRepository struct {
@@ -66,7 +66,7 @@ func (r *categoryRepository) GetAll(params *datatransfers.CategoryQueryParams) (
 	return
 }
 
-func (r *categoryRepository) GetByID(categoryID int) (category *models.Category, err error) {
+func (r *categoryRepository) GetByID(categoryID uint) (category *models.Category, err error) {
 	qs := r.db.Where("id = ?", categoryID)
 	err = qs.First(category).Error
 	if err != nil {

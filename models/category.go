@@ -15,7 +15,7 @@ type Category struct {
 	Image       string         `gorm:"type:varchar(255)" json:"image"`
 	Description string         `gorm:"type:text" json:"description"`
 	Sort        int            `gorm:"type:integer" json:"sort"`
-	IsActive    *bool          `gorm:"type:boolean" json:"isActive"`
+	IsActive    *bool          `gorm:"type:boolean;default:false" json:"isActive"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime;<-:create" json:"createdAt"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
 	DeletedAt   gorm.DeletedAt `json:"deletedAt"`

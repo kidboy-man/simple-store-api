@@ -12,7 +12,7 @@ type CategoryUsecase interface {
 	Create(category *models.Category) (err error)
 	Delete(category *models.Category) (err error)
 	GetAll(param *datatransfers.CategoryQueryParams) (categories []*models.Category, cnt int64, err error)
-	GetByID(categoryID int) (category *models.Category, err error)
+	GetByID(categoryID uint) (category *models.Category, err error)
 	Update(category *models.Category) (err error)
 }
 
@@ -34,7 +34,7 @@ func (u *categoryUsecase) GetAll(param *datatransfers.CategoryQueryParams) (cate
 	return
 }
 
-func (u *categoryUsecase) GetByID(categoryID int) (category *models.Category, err error) {
+func (u *categoryUsecase) GetByID(categoryID uint) (category *models.Category, err error) {
 	category, err = u.categoryRepo.GetByID(categoryID)
 	return
 }

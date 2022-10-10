@@ -11,6 +11,47 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
+  /admin/categories/:
+    get:
+      tags:
+      - admin/categories
+      summary: Get All Categories
+      description: get all categories
+      operationId: CategoryAdminController.Get All Categories
+      parameters:
+      - in: query
+        name: limit
+        description: limit of this request
+        type: integer
+        format: int64
+      - in: query
+        name: page
+        description: page of this request
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+        "403":
+          description: ""
+    post:
+      tags:
+      - admin/categories
+      summary: Create Category
+      description: create category
+      operationId: CategoryAdminController.Create Category
+      parameters:
+      - in: body
+        name: params
+        description: body of this request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      responses:
+        "200":
+          description: ""
+        "403":
+          description: ""
   /public/categories/:
     get:
       tags:
@@ -106,6 +147,101 @@ definitions:
         type: string
       username:
         type: string
+  gorm.DeletedAt:
+    title: DeletedAt
+    type: object
+  models.Category:
+    title: Category
+    type: object
+    properties:
+      createdAt:
+        type: string
+        format: datetime
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+      image:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/models.Product'
+      sort:
+        type: integer
+        format: int64
+      updatedAt:
+        type: string
+        format: datetime
+  models.Price:
+    title: Price
+    type: object
+    properties:
+      VariantID:
+        type: integer
+        format: int32
+      createdAt:
+        type: string
+        format: datetime
+      currency:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+        format: int32
+      isActive:
+        type: boolean
+      nominal:
+        type: number
+        format: float
+      updatedAt:
+        type: string
+        format: datetime
+      variant:
+        $ref: '#/definitions/models.Variant'
+  models.Product:
+    title: Product
+    type: object
+    properties:
+      CategoryID:
+        type: integer
+        format: int32
+      category:
+        $ref: '#/definitions/models.Category'
+      createdAt:
+        type: string
+        format: datetime
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+      image:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      sort:
+        type: integer
+        format: int64
+      updatedAt:
+        type: string
+        format: datetime
+      variants:
+        type: array
+        items:
+          $ref: '#/definitions/models.Variant'
   models.User:
     title: User
     type: object
@@ -127,6 +263,44 @@ definitions:
         format: datetime
       username:
         type: string
+  models.Variant:
+    title: Variant
+    type: object
+    properties:
+      ProductID:
+        type: integer
+        format: int32
+      createdAt:
+        type: string
+        format: datetime
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+      image:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      prices:
+        type: array
+        items:
+          $ref: '#/definitions/models.Price'
+      product:
+        $ref: '#/definitions/models.Product'
+      sort:
+        type: integer
+        format: int64
+      stock:
+        type: integer
+        format: int64
+      updatedAt:
+        type: string
+        format: datetime
 tags:
 - name: public/metadata
   description: |
@@ -135,5 +309,8 @@ tags:
   description: |
     Operations about object
 - name: public/users
+  description: |
+    Operations about object
+- name: admin/categories
   description: |
     Operations about object

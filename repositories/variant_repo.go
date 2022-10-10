@@ -59,7 +59,7 @@ func (r *variantRepository) GetAll(params *datatransfers.VariantQueryParams) (va
 		qs = qs.Offset(params.Offset)
 	}
 
-	err = qs.Preload("Variants").Find(&variants).Error
+	err = qs.Find(&variants).Error
 	if err != nil {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryInternalServerErrCode,

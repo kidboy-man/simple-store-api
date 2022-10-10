@@ -16,6 +16,7 @@ import (
 
 func init() {
 	log.Println("ROUTER INITIATED")
+
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/public/metadata",
 			beego.NSInclude(
@@ -32,6 +33,12 @@ func init() {
 		beego.NSNamespace("/public/users",
 			beego.NSInclude(
 				&controllers.UserPublicController{},
+			),
+		),
+
+		beego.NSNamespace("/admin/categories",
+			beego.NSInclude(
+				&controllers.CategoryAdminController{},
 			),
 		),
 	)

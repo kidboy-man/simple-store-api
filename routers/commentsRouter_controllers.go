@@ -7,6 +7,29 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"],
+        beego.ControllerComments{
+            Method: "GetAll",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(
+				param.New("limit"),
+				param.New("page"),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"],
+        beego.ControllerComments{
+            Method: "CreateCategory",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(
+				param.New("params", param.IsRequired, param.InBody),
+			),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["simple-store-api/controllers:CategoryPublicController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryPublicController"],
         beego.ControllerComments{
             Method: "GetAll",
