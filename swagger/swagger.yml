@@ -34,6 +34,7 @@ paths:
           description: ""
         "403":
           description: ""
+  /admin/categories/create:
     post:
       tags:
       - admin/categories

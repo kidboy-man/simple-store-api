@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 	"simple-store-api/datatransfers"
@@ -25,11 +24,7 @@ type JSONResponse struct {
 func doReturnOK(response *JSONResponse, obj interface{}) {
 	response.Success = true
 	response.Status = http.StatusOK
-	json, err := json.Marshal(obj)
-	if err != nil {
-		log.Panic(err)
-	}
-	response.Data = string(json)
+	response.Data = obj
 	return
 }
 

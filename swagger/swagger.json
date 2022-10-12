@@ -47,7 +47,9 @@
                         "description": ""
                     }
                 }
-            },
+            }
+        },
+        "/admin/categories/create": {
             "post": {
                 "tags": [
                     "admin/categories"

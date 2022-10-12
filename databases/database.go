@@ -13,8 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB //database
-
 func InitDB() {
 
 	err := godotenv.Load() //Load .env file
@@ -36,17 +34,17 @@ func InitDB() {
 		panic(err)
 	}
 
-	conf.AppConfig.DbClient = conn
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Metadata{}) // Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Category{}) // Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.User{})     // Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Product{})  // Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Variant{})  // Database migration
-	conf.AppConfig.DbClient.Debug().AutoMigrate(&models.Price{})    // Database migration
+	conf.AppConfig.DbClient = conn.Debug()
+	conf.AppConfig.DbClient.AutoMigrate(&models.Metadata{}) // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Category{}) // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.User{})     // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Product{})  // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Variant{})  // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Price{})    // Database migration
 
 }
 
 // returns a handle to the DB object
 func GetDB() *gorm.DB {
-	return db
+	return conf.AppConfig.DbClient
 }
