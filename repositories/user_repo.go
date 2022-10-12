@@ -162,7 +162,7 @@ func (r *userRepository) Update(user *models.User, db *gorm.DB) (err error) {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
 			Status:  http.StatusNotFound,
-			Message: err.Error(),
+			Message: gorm.ErrRecordNotFound.Error(),
 		}
 		return
 	}
@@ -185,7 +185,7 @@ func (r *userRepository) Delete(user *models.User, db *gorm.DB) (err error) {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
 			Status:  http.StatusNotFound,
-			Message: err.Error(),
+			Message: gorm.ErrRecordNotFound.Error(),
 		}
 		return
 	}

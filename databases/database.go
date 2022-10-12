@@ -34,7 +34,7 @@ func InitDB() {
 		panic(err)
 	}
 
-	conf.AppConfig.DbClient = conn.Debug()
+	conf.AppConfig.DbClient = conn.Debug()                  // show query and runtime
 	conf.AppConfig.DbClient.AutoMigrate(&models.Metadata{}) // Database migration
 	conf.AppConfig.DbClient.AutoMigrate(&models.Category{}) // Database migration
 	conf.AppConfig.DbClient.AutoMigrate(&models.User{})     // Database migration

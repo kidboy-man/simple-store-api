@@ -114,7 +114,7 @@ func (r *categoryRepository) Update(category *models.Category, db *gorm.DB) (err
 	if row.RowsAffected == 0 {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
-			Status:  http.StatusInternalServerError,
+			Status:  http.StatusNotFound,
 			Message: gorm.ErrRecordNotFound.Error(),
 		}
 	}
@@ -135,7 +135,7 @@ func (r *categoryRepository) Delete(category *models.Category, db *gorm.DB) (err
 	if row.RowsAffected == 0 {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
-			Status:  http.StatusInternalServerError,
+			Status:  http.StatusNotFound,
 			Message: gorm.ErrRecordNotFound.Error(),
 		}
 	}

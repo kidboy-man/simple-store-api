@@ -47,9 +47,7 @@
                         "description": ""
                     }
                 }
-            }
-        },
-        "/admin/categories/create": {
+            },
             "post": {
                 "tags": [
                     "admin/categories"
@@ -66,6 +64,95 @@
                         "schema": {
                             "$ref": "#/definitions/models.Category"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/admin/categories/{categoryID}": {
+            "get": {
+                "tags": [
+                    "admin/categories"
+                ],
+                "summary": "Get Category",
+                "description": "Get category",
+                "operationId": "CategoryAdminController.Get Category",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryID",
+                        "description": "id of the category to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin/categories"
+                ],
+                "summary": "Update Category",
+                "description": "update category",
+                "operationId": "CategoryAdminController.Update Category",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryID",
+                        "description": "id of the category to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "admin/categories"
+                ],
+                "summary": "Delete Category",
+                "description": "delete category",
+                "operationId": "CategoryAdminController.Delete Category",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryID",
+                        "description": "id of the category to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
                     }
                 ],
                 "responses": {

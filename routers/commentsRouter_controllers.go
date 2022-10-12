@@ -30,6 +30,40 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"],
+        beego.ControllerComments{
+            Method: "GetCategory",
+            Router: "/:categoryID",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(
+				param.New("categoryID", param.IsRequired, param.InPath),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"],
+        beego.ControllerComments{
+            Method: "UpdateCategory",
+            Router: "/:categoryID",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(
+				param.New("categoryID", param.IsRequired, param.InPath),
+				param.New("params", param.IsRequired, param.InBody),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryAdminController"],
+        beego.ControllerComments{
+            Method: "DeleteCategory",
+            Router: "/:categoryID",
+            AllowHTTPMethods: []string{"delete"},
+            MethodParams: param.Make(
+				param.New("categoryID", param.IsRequired, param.InPath),
+			),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["simple-store-api/controllers:CategoryPublicController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:CategoryPublicController"],
         beego.ControllerComments{
             Method: "GetAll",

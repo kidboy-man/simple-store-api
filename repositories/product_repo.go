@@ -118,7 +118,7 @@ func (r *productRepository) Update(product *models.Product, db *gorm.DB) (err er
 	if row.RowsAffected == 0 {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
-			Status:  http.StatusInternalServerError,
+			Status:  http.StatusNotFound,
 			Message: gorm.ErrRecordNotFound.Error(),
 		}
 	}
@@ -139,7 +139,7 @@ func (r *productRepository) Delete(product *models.Product, db *gorm.DB) (err er
 	if row.RowsAffected == 0 {
 		err = &datatransfers.CustomError{
 			Code:    constants.QueryNotFoundErrCode,
-			Status:  http.StatusInternalServerError,
+			Status:  http.StatusNotFound,
 			Message: gorm.ErrRecordNotFound.Error(),
 		}
 	}
