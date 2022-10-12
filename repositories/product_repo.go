@@ -14,7 +14,7 @@ type ProductRepository interface {
 	Create(product *models.Product, db *gorm.DB) (err error)
 	Delete(product *models.Product, db *gorm.DB) (err error)
 	GetAll(params *datatransfers.ProductQueryParams) (products []*models.Product, cnt int64, err error)
-	GetByID(productID int) (product *models.Product, err error)
+	GetByID(productID uint) (product *models.Product, err error)
 	Update(product *models.Product, db *gorm.DB) (err error)
 }
 type productRepository struct {
@@ -70,7 +70,7 @@ func (r *productRepository) GetAll(params *datatransfers.ProductQueryParams) (pr
 	return
 }
 
-func (r *productRepository) GetByID(productID int) (product *models.Product, err error) {
+func (r *productRepository) GetByID(productID uint) (product *models.Product, err error) {
 	qs := r.db.Where("id = ?", productID)
 	err = qs.Preload("Variants").First(product).Error
 	if err != nil {

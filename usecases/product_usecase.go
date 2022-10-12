@@ -14,7 +14,7 @@ type ProductUsecase interface {
 	Create(product *models.Product) (err error)
 	Delete(product *models.Product) (err error)
 	GetAll(param *datatransfers.ProductQueryParams) (products []*models.Product, cnt int64, err error)
-	GetByID(productID int) (product *models.Product, err error)
+	GetByID(productID uint) (product *models.Product, err error)
 	Update(product *models.Product) (err error)
 }
 
@@ -39,7 +39,7 @@ func (u *productUsecase) GetAll(param *datatransfers.ProductQueryParams) (produc
 	return
 }
 
-func (u *productUsecase) GetByID(productID int) (product *models.Product, err error) {
+func (u *productUsecase) GetByID(productID uint) (product *models.Product, err error) {
 	product, err = u.productRepo.GetByID(productID)
 	return
 }
