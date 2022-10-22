@@ -315,6 +315,156 @@
                 }
             }
         },
+        "/admin/variants/": {
+            "get": {
+                "tags": [
+                    "admin/variants"
+                ],
+                "summary": "Get All Variants",
+                "description": "get all variants",
+                "operationId": "VariantAdminController.Get All Variants",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "limit of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin/variants"
+                ],
+                "summary": "Create Variant",
+                "description": "create variant",
+                "operationId": "VariantAdminController.Create Variant",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Variant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/admin/variants/{variantID}": {
+            "get": {
+                "tags": [
+                    "admin/variants"
+                ],
+                "summary": "Get Variant",
+                "description": "Get variant",
+                "operationId": "VariantAdminController.Get Variant",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "variantID",
+                        "description": "id of the variant to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin/variants"
+                ],
+                "summary": "Update Variant",
+                "description": "update variant",
+                "operationId": "VariantAdminController.Update Variant",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "variantID",
+                        "description": "id of the variant to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Variant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "admin/variants"
+                ],
+                "summary": "Delete Variant",
+                "description": "delete variant",
+                "operationId": "VariantAdminController.Delete Variant",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "variantID",
+                        "description": "id of the variant to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/public/categories/": {
             "get": {
                 "tags": [
@@ -679,6 +829,10 @@
         },
         {
             "name": "admin/products",
+            "description": "Operations about object\n"
+        },
+        {
+            "name": "admin/variants",
             "description": "Operations about object\n"
         }
     ]
