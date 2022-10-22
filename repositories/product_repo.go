@@ -77,7 +77,7 @@ func (r *productRepository) GetByID(productID uint) (product *models.Product, er
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
 				Code:    constants.QueryNotFoundErrCode,
-				Status:  http.StatusInternalServerError,
+				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
 			return nil, err

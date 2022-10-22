@@ -14,7 +14,7 @@ type VariantRepository interface {
 	Create(variant *models.Variant, db *gorm.DB) (err error)
 	Delete(variant *models.Variant, db *gorm.DB) (err error)
 	GetAll(params *datatransfers.VariantQueryParams) (variants []*models.Variant, cnt int64, err error)
-	GetByID(variantID int) (variant *models.Variant, err error)
+	GetByID(variantID uint) (variant *models.Variant, err error)
 	Update(variant *models.Variant, db *gorm.DB) (err error)
 }
 type variantRepository struct {
@@ -70,14 +70,14 @@ func (r *variantRepository) GetAll(params *datatransfers.VariantQueryParams) (va
 	return
 }
 
-func (r *variantRepository) GetByID(variantID int) (variant *models.Variant, err error) {
+func (r *variantRepository) GetByID(variantID uint) (variant *models.Variant, err error) {
 	qs := r.db.Where("id = ?", variantID)
 	err = qs.Preload("Variants").First(&variant).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
 				Code:    constants.QueryNotFoundErrCode,
-				Status:  http.StatusInternalServerError,
+				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
 			return nil, err

@@ -73,7 +73,7 @@ func (r *categoryRepository) GetByID(categoryID uint) (category *models.Category
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
 				Code:    constants.QueryNotFoundErrCode,
-				Status:  http.StatusInternalServerError,
+				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
 			return nil, err
