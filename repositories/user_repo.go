@@ -75,7 +75,7 @@ func (r *userRepository) GetAll(params *datatransfers.UserQueryParams) (users []
 
 func (r *userRepository) GetByID(userID int) (user *models.User, err error) {
 	qs := r.db.Where("id = ?", userID)
-	err = qs.First(user).Error
+	err = qs.First(&user).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -90,13 +90,14 @@ func (r *userRepository) GetByID(userID int) (user *models.User, err error) {
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+		return nil, err
 	}
 	return
 }
 
 func (r *userRepository) GetByUsername(username string) (user *models.User, err error) {
 	qs := r.db.Where("username = ?", username)
-	err = qs.First(user).Error
+	err = qs.First(&user).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -110,13 +111,14 @@ func (r *userRepository) GetByUsername(username string) (user *models.User, err 
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+		return nil, err
 	}
 	return
 }
 
 func (r *userRepository) GetByEmail(email string) (user *models.User, err error) {
 	qs := r.db.Where("email = ?", strings.ToLower(strings.TrimSpace(email)))
-	err = qs.First(user).Error
+	err = qs.First(&user).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -130,6 +132,7 @@ func (r *userRepository) GetByEmail(email string) (user *models.User, err error)
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+		return nil, err
 	}
 	return
 }

@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"log"
 	"net/http"
 	"simple-store-api/constants"
 	"simple-store-api/datatransfers"
@@ -62,9 +63,12 @@ func (u *userUsecase) Delete(user *models.User) (err error) {
 
 func (u *userUsecase) Register(params *datatransfers.RegisterRequest) (err error) {
 	userByEmail, err := u.userRepo.GetByEmail(params.Email)
+	log.Println("ERROR:", err)
 	if err != nil && !utils.IsErrRecordNotFound(err) {
 		return
 	}
+
+	log.Println("user by email:", userByEmail)
 
 	if userByEmail != nil {
 		err = &datatransfers.CustomError{
