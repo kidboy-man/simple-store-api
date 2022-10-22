@@ -47,9 +47,10 @@ func (u *productUsecase) GetByID(productID uint) (product *models.Product, err e
 func (u *productUsecase) Create(product *models.Product) (err error) {
 	if product.Category == nil {
 		err = &datatransfers.CustomError{
-			Code:   constants.BadRequesErrCode, // TODO: change Error Code
+			Code:   constants.BadRequestErrCode, // TODO: change Error Code
 			Status: http.StatusBadRequest,
 		}
+		return
 	}
 
 	category, err := u.categoryRepo.GetByID(product.Category.ID)

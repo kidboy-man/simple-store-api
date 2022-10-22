@@ -3,7 +3,7 @@ package constants
 // general
 const (
 	InternalServerErrCode = 1001 + iota
-	BadRequesErrCode
+	BadRequestErrCode
 	NotAuthorizedErrCode
 	OrmHookDataErrCode
 )
