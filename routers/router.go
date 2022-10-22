@@ -53,6 +53,12 @@ func init() {
 				&controllers.VariantAdminController{},
 			),
 		),
+
+		beego.NSNamespace("/admin/prices",
+			beego.NSInclude(
+				&controllers.PriceAdminController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

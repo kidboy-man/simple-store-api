@@ -165,6 +165,156 @@
                 }
             }
         },
+        "/admin/prices/": {
+            "get": {
+                "tags": [
+                    "admin/prices"
+                ],
+                "summary": "Get All Prices",
+                "description": "get all prices",
+                "operationId": "PriceAdminController.Get All Prices",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "limit of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page of this request",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin/prices"
+                ],
+                "summary": "Create Price",
+                "description": "create price",
+                "operationId": "PriceAdminController.Create Price",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Price"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/admin/prices/{priceID}": {
+            "get": {
+                "tags": [
+                    "admin/prices"
+                ],
+                "summary": "Get Price",
+                "description": "Get price",
+                "operationId": "PriceAdminController.Get Price",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "priceID",
+                        "description": "id of the price to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin/prices"
+                ],
+                "summary": "Update Price",
+                "description": "update price",
+                "operationId": "PriceAdminController.Update Price",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "priceID",
+                        "description": "id of the price to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "params",
+                        "description": "body of this request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Price"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "admin/prices"
+                ],
+                "summary": "Delete Price",
+                "description": "delete price",
+                "operationId": "PriceAdminController.Delete Price",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "priceID",
+                        "description": "id of the price to update",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/admin/products/": {
             "get": {
                 "tags": [
@@ -833,6 +983,10 @@
         },
         {
             "name": "admin/variants",
+            "description": "Operations about object\n"
+        },
+        {
+            "name": "admin/prices",
             "description": "Operations about object\n"
         }
     ]

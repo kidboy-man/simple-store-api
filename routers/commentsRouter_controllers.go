@@ -88,6 +88,63 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"],
+        beego.ControllerComments{
+            Method: "GetAll",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(
+				param.New("limit"),
+				param.New("page"),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"],
+        beego.ControllerComments{
+            Method: "CreatePrice",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(
+				param.New("params", param.IsRequired, param.InBody),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"],
+        beego.ControllerComments{
+            Method: "GetPrice",
+            Router: "/:priceID",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(
+				param.New("priceID", param.IsRequired, param.InPath),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"],
+        beego.ControllerComments{
+            Method: "UpdatePrice",
+            Router: "/:priceID",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(
+				param.New("priceID", param.IsRequired, param.InPath),
+				param.New("params", param.IsRequired, param.InBody),
+			),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:PriceAdminController"],
+        beego.ControllerComments{
+            Method: "DeletePrice",
+            Router: "/:priceID",
+            AllowHTTPMethods: []string{"delete"},
+            MethodParams: param.Make(
+				param.New("priceID", param.IsRequired, param.InPath),
+			),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["simple-store-api/controllers:ProductAdminController"] = append(beego.GlobalControllerRouter["simple-store-api/controllers:ProductAdminController"],
         beego.ControllerComments{
             Method: "GetAll",
