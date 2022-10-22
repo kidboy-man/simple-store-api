@@ -124,6 +124,13 @@ func (u *userUsecase) Login(params *datatransfers.LoginRequest) (user *models.Us
 		return nil, err
 	}
 
-	// TODO: generate token
+	user.Token, err = helpers.GenerateToken(user)
+	if err != nil {
+		err = &datatransfers.CustomError{
+			Code:    constants.InternalServerErrCode,
+			Status:  http.StatusInternalServerError,
+			Message: "FAILED_GENERATING_TOKEN",
+		}
+	}
 	return user, nil
 }

@@ -13,7 +13,7 @@ import (
 type User struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	Username  string    `gorm:"index;unique;type:varchar(255)" validate:"required" json:"username"`
-	Password  string    `gorm:"type:varchar(255)" validate:"required" json:"password"`
+	Password  string    `gorm:"type:varchar(255)" validate:"required" json:"-"`
 	Email     string    `gorm:"index;unique;type:varchar(255)" validate:"required,email" json:"email"`
 	Token     string    `gorm:"-" json:"token"`
 	CreatedAt time.Time `gorm:"autoCreateTime;<-:create" json:"createdAt"`
