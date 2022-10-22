@@ -83,6 +83,7 @@ func (r *userRepository) GetByID(userID int) (user *models.User, err error) {
 				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
+			return nil, err
 		}
 
 		err = &datatransfers.CustomError{
@@ -105,6 +106,7 @@ func (r *userRepository) GetByUsername(username string) (user *models.User, err 
 				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
+			return nil, err
 		}
 		err = &datatransfers.CustomError{
 			Code:    constants.InternalServerErrCode,
@@ -126,6 +128,7 @@ func (r *userRepository) GetByEmail(email string) (user *models.User, err error)
 				Status:  http.StatusNotFound,
 				Message: err.Error(),
 			}
+			return nil, err
 		}
 		err = &datatransfers.CustomError{
 			Code:    constants.InternalServerErrCode,

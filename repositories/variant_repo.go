@@ -72,7 +72,7 @@ func (r *variantRepository) GetAll(params *datatransfers.VariantQueryParams) (va
 
 func (r *variantRepository) GetByID(variantID int) (variant *models.Variant, err error) {
 	qs := r.db.Where("id = ?", variantID)
-	err = qs.Preload("Variants").First(variant).Error
+	err = qs.Preload("Variants").First(&variant).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -80,7 +80,7 @@ func (r *variantRepository) GetByID(variantID int) (variant *models.Variant, err
 				Status:  http.StatusInternalServerError,
 				Message: err.Error(),
 			}
-			return
+			return nil, err
 		}
 
 		err = &datatransfers.CustomError{
@@ -88,6 +88,7 @@ func (r *variantRepository) GetByID(variantID int) (variant *models.Variant, err
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+		return nil, err
 	}
 	return
 }

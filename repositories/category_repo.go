@@ -68,7 +68,7 @@ func (r *categoryRepository) GetAll(params *datatransfers.CategoryQueryParams) (
 
 func (r *categoryRepository) GetByID(categoryID uint) (category *models.Category, err error) {
 	qs := r.db.Where("id = ?", categoryID)
-	err = qs.First(category).Error
+	err = qs.First(&category).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -76,7 +76,7 @@ func (r *categoryRepository) GetByID(categoryID uint) (category *models.Category
 				Status:  http.StatusInternalServerError,
 				Message: err.Error(),
 			}
-			return
+			return nil, err
 		}
 
 		err = &datatransfers.CustomError{
@@ -84,6 +84,8 @@ func (r *categoryRepository) GetByID(categoryID uint) (category *models.Category
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+
+		return nil, err
 	}
 	return
 }

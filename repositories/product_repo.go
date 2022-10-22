@@ -72,7 +72,7 @@ func (r *productRepository) GetAll(params *datatransfers.ProductQueryParams) (pr
 
 func (r *productRepository) GetByID(productID uint) (product *models.Product, err error) {
 	qs := r.db.Where("id = ?", productID)
-	err = qs.Preload("Variants").First(product).Error
+	err = qs.Preload("Variants").First(&product).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			err = &datatransfers.CustomError{
@@ -80,7 +80,7 @@ func (r *productRepository) GetByID(productID uint) (product *models.Product, er
 				Status:  http.StatusInternalServerError,
 				Message: err.Error(),
 			}
-			return
+			return nil, err
 		}
 
 		err = &datatransfers.CustomError{
@@ -88,6 +88,7 @@ func (r *productRepository) GetByID(productID uint) (product *models.Product, er
 			Status:  http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+		return nil, err
 	}
 	return
 }
