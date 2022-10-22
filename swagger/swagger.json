@@ -398,7 +398,7 @@
                         "description": "body of this request",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/datatransfers.LoginRequest"
                         }
                     }
                 ],
@@ -443,6 +443,18 @@
         }
     },
     "definitions": {
+        "datatransfers.LoginRequest": {
+            "title": "LoginRequest",
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "datatransfers.RegisterRequest": {
             "title": "RegisterRequest",
             "type": "object",
@@ -590,36 +602,6 @@
                     "items": {
                         "$ref": "#/definitions/models.Variant"
                     }
-                }
-            }
-        },
-        "models.User": {
-            "title": "User",
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "token": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "username": {
-                    "type": "string"
                 }
             }
         },
