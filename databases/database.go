@@ -34,13 +34,14 @@ func InitDB() {
 		panic(err)
 	}
 
-	conf.AppConfig.DbClient = conn.Debug()                  // show query and runtime
-	conf.AppConfig.DbClient.AutoMigrate(&models.Metadata{}) // Database migration
-	conf.AppConfig.DbClient.AutoMigrate(&models.Category{}) // Database migration
-	conf.AppConfig.DbClient.AutoMigrate(&models.User{})     // Database migration
-	conf.AppConfig.DbClient.AutoMigrate(&models.Product{})  // Database migration
-	conf.AppConfig.DbClient.AutoMigrate(&models.Variant{})  // Database migration
-	conf.AppConfig.DbClient.AutoMigrate(&models.Price{})    // Database migration
+	conf.AppConfig.DbClient = conn
+	conf.AppConfig.DbClient.AutoMigrate(&models.Metadata{})   // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Category{})   // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.User{})       // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Product{})    // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Variant{})    // Database migration
+	conf.AppConfig.DbClient.AutoMigrate(&models.Price{})      // Database migration
+	conf.AppConfig.DbClient = conf.AppConfig.DbClient.Debug() // show query and runtime
 
 }
 
