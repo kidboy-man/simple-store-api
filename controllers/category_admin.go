@@ -6,13 +6,11 @@ import (
 	"simple-store-api/models"
 	usecase "simple-store-api/usecases"
 	"simple-store-api/utils"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about object
 type CategoryAdminController struct {
-	beego.Controller
+	BaseController
 	categoryUcase usecase.CategoryUsecase
 }
 
@@ -28,7 +26,7 @@ func (c *CategoryAdminController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *CategoryAdminController) GetAll(limit, page int) (response JSONResponse) {
+func (c *CategoryAdminController) GetAll(limit, page int) *JSONResponse {
 	category, totalData, err := c.categoryUcase.GetAll(&datatransfers.CategoryQueryParams{
 		BaseQueryParams: datatransfers.BaseQueryParams{
 			Limit:    limit,
@@ -38,9 +36,7 @@ func (c *CategoryAdminController) GetAll(limit, page int) (response JSONResponse
 		},
 	})
 
-	response.SetPagination(c.Ctx, totalData, limit, page)
-	response.ReturnJSONResponse(category, err)
-	return
+	return c.ReturnJSONListResponse(category, totalData, limit, page, err)
 }
 
 // @Title Get Category
@@ -50,10 +46,9 @@ func (c *CategoryAdminController) GetAll(limit, page int) (response JSONResponse
 // @Failure 403
 // @Param categoryID path int true "id of the category to update"
 // @router /:categoryID [get]
-func (c *CategoryAdminController) GetCategory(categoryID uint) (response JSONResponse) {
+func (c *CategoryAdminController) GetCategory(categoryID uint) *JSONResponse {
 	category, err := c.categoryUcase.GetByID(categoryID)
-	response.ReturnJSONResponse(category, err)
-	return
+	return c.ReturnJSONResponse(category, err)
 }
 
 // @Title Create Category
@@ -63,10 +58,9 @@ func (c *CategoryAdminController) GetCategory(categoryID uint) (response JSONRes
 // @Failure 403
 // @Param params body models.Category true "body of this request"
 // @router / [post]
-func (c *CategoryAdminController) CreateCategory(params *models.Category) (response JSONResponse) {
+func (c *CategoryAdminController) CreateCategory(params *models.Category) *JSONResponse {
 	err := c.categoryUcase.Create(params)
-	response.ReturnJSONResponse(params, err)
-	return
+	return c.ReturnJSONResponse(params, err)
 }
 
 // @Title Update Category
@@ -77,12 +71,11 @@ func (c *CategoryAdminController) CreateCategory(params *models.Category) (respo
 // @Param categoryID path int true "id of the category to update"
 // @Param params body models.Category true "body of this request"
 // @router /:categoryID [put]
-func (c *CategoryAdminController) UpdateCategory(categoryID uint, params *models.Category) (response JSONResponse) {
+func (c *CategoryAdminController) UpdateCategory(categoryID uint, params *models.Category) *JSONResponse {
 	// TODO: validate params
 	params.ID = categoryID
 	err := c.categoryUcase.Update(params)
-	response.ReturnJSONResponse(params, err)
-	return
+	return c.ReturnJSONResponse(params, err)
 }
 
 // @Title Delete Category
@@ -92,8 +85,7 @@ func (c *CategoryAdminController) UpdateCategory(categoryID uint, params *models
 // @Failure 403
 // @Param categoryID path int true "id of the category to update"
 // @router /:categoryID [delete]
-func (c *CategoryAdminController) DeleteCategory(categoryID uint) (response JSONResponse) {
+func (c *CategoryAdminController) DeleteCategory(categoryID uint) *JSONResponse {
 	err := c.categoryUcase.Delete(&models.Category{ID: categoryID})
-	response.ReturnJSONResponse(nil, err)
-	return
+	return c.ReturnJSONResponse(nil, err)
 }

@@ -1,13 +1,17 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"simple-store-api/datatransfers"
 
-	"github.com/beego/beego/v2/server/web/context"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/pagination"
 )
+
+type BaseController struct {
+	beego.Controller
+	JSONResponse *JSONResponse
+}
 
 type JSONResponse struct {
 	Success     bool        `json:"success"`
@@ -25,7 +29,6 @@ func doReturnOK(response *JSONResponse, obj interface{}) {
 	response.Success = true
 	response.Status = http.StatusOK
 	response.Data = obj
-	return
 }
 
 func doReturnNotOK(response *JSONResponse, err error) {
@@ -38,30 +41,36 @@ func doReturnNotOK(response *JSONResponse, err error) {
 	}
 
 	response.Error = err
-	return
 }
 
-func (j *JSONResponse) ReturnJSONResponse(obj interface{}, err error) (response *JSONResponse) {
+func (c *BaseController) ReturnJSONResponse(obj interface{}, err error) *JSONResponse {
+	c.JSONResponse = &JSONResponse{}
 	if err != nil {
-		doReturnNotOK(j, err)
-		return
+		doReturnNotOK(c.JSONResponse, err)
+	} else {
+		doReturnOK(c.JSONResponse, obj)
 	}
 
-	doReturnOK(j, obj)
+	c.Ctx.Output.SetStatus(c.JSONResponse.Status)
+	return c.JSONResponse
+}
+
+func (c *BaseController) setPagination(totalData int64, limit, page int) {
+	paginator := pagination.SetPaginator(c.Ctx, limit, totalData)
+	c.JSONResponse.CurrentPage = page
+	c.JSONResponse.TotalPages = paginator.PageNums()
+	c.JSONResponse.DataPerPage = limit
+	c.JSONResponse.HasNextPage = paginator.HasNext()
+	c.JSONResponse.HasPrevPage = paginator.HasPrev()
+}
+
+func (c *BaseController) GetUserIDFromToken() (uid string) {
+	uid = c.Ctx.Input.GetData("uid").(string)
 	return
 }
 
-func (j *JSONResponse) SetPagination(ctx *context.Context, totalData int64, limit, page int) {
-	log.Println("totalData", totalData)
-	log.Println("limit", limit)
-	paginator := pagination.SetPaginator(ctx, limit, totalData)
-
-	j.CurrentPage = page
-	j.TotalPages = paginator.PageNums()
-	log.Println("response", j.TotalPages)
-	j.DataPerPage = limit
-	j.HasNextPage = paginator.HasNext()
-	j.HasPrevPage = paginator.HasPrev()
-	log.Println("response", j)
-	return
+func (c *BaseController) ReturnJSONListResponse(obj interface{}, cnt int64, limit, page int, err error) *JSONResponse {
+	c.JSONResponse = c.ReturnJSONResponse(obj, err)
+	c.setPagination(cnt, limit, page)
+	return c.JSONResponse
 }

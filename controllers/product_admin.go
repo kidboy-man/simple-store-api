@@ -6,13 +6,11 @@ import (
 	"simple-store-api/models"
 	usecase "simple-store-api/usecases"
 	"simple-store-api/utils"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about object
 type ProductAdminController struct {
-	beego.Controller
+	BaseController
 	productUcase usecase.ProductUsecase
 }
 
@@ -28,7 +26,7 @@ func (c *ProductAdminController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *ProductAdminController) GetAll(limit, page int) (response JSONResponse) {
+func (c *ProductAdminController) GetAll(limit, page int) *JSONResponse {
 	product, totalData, err := c.productUcase.GetAll(&datatransfers.ProductQueryParams{
 		BaseQueryParams: datatransfers.BaseQueryParams{
 			Limit:    limit,
@@ -38,9 +36,7 @@ func (c *ProductAdminController) GetAll(limit, page int) (response JSONResponse)
 		},
 	})
 
-	response.SetPagination(c.Ctx, totalData, limit, page)
-	response.ReturnJSONResponse(product, err)
-	return
+	return c.ReturnJSONListResponse(product, totalData, limit, page, err)
 }
 
 // @Title Get Product
@@ -50,10 +46,9 @@ func (c *ProductAdminController) GetAll(limit, page int) (response JSONResponse)
 // @Failure 403
 // @Param productID path int true "id of the product to update"
 // @router /:productID [get]
-func (c *ProductAdminController) GetProduct(productID uint) (response JSONResponse) {
+func (c *ProductAdminController) GetProduct(productID uint) *JSONResponse {
 	product, err := c.productUcase.GetByID(productID)
-	response.ReturnJSONResponse(product, err)
-	return
+	return c.ReturnJSONResponse(product, err)
 }
 
 // @Title Create Product
@@ -63,10 +58,9 @@ func (c *ProductAdminController) GetProduct(productID uint) (response JSONRespon
 // @Failure 403
 // @Param params body models.Product true "body of this request"
 // @router / [post]
-func (c *ProductAdminController) CreateProduct(params *models.Product) (response JSONResponse) {
+func (c *ProductAdminController) CreateProduct(params *models.Product) *JSONResponse {
 	err := c.productUcase.Create(params)
-	response.ReturnJSONResponse(params, err)
-	return
+	return c.ReturnJSONResponse(params, err)
 }
 
 // @Title Update Product
@@ -77,12 +71,11 @@ func (c *ProductAdminController) CreateProduct(params *models.Product) (response
 // @Param productID path int true "id of the product to update"
 // @Param params body models.Product true "body of this request"
 // @router /:productID [put]
-func (c *ProductAdminController) UpdateProduct(productID uint, params *models.Product) (response JSONResponse) {
+func (c *ProductAdminController) UpdateProduct(productID uint, params *models.Product) *JSONResponse {
 	// TODO: validate params
 	params.ID = productID
 	err := c.productUcase.Update(params)
-	response.ReturnJSONResponse(params, err)
-	return
+	return c.ReturnJSONResponse(params, err)
 }
 
 // @Title Delete Product
@@ -92,8 +85,7 @@ func (c *ProductAdminController) UpdateProduct(productID uint, params *models.Pr
 // @Failure 403
 // @Param productID path int true "id of the product to update"
 // @router /:productID [delete]
-func (c *ProductAdminController) DeleteProduct(productID uint) (response JSONResponse) {
+func (c *ProductAdminController) DeleteProduct(productID uint) *JSONResponse {
 	err := c.productUcase.Delete(&models.Product{ID: productID})
-	response.ReturnJSONResponse(nil, err)
-	return
+	return c.ReturnJSONResponse(nil, err)
 }

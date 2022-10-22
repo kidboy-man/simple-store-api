@@ -1,16 +1,15 @@
 package controllers
 
 import (
+	"log"
 	"simple-store-api/conf"
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about object
 type UserPublicController struct {
-	beego.Controller
+	BaseController
 	userUcase usecase.UserUsecase
 }
 
@@ -25,10 +24,10 @@ func (c *UserPublicController) Prepare() {
 // @Failure 403
 // @Param params body datatransfers.RegisterRequest true "body of this request"
 // @router /register [post]
-func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) (response JSONResponse) {
+func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) *JSONResponse {
 	err := c.userUcase.Register(params)
-	response.ReturnJSONResponse(nil, err)
-	return
+	log.Println("ERROR Register:", err)
+	return c.ReturnJSONResponse(nil, err)
 }
 
 // @Title Login
@@ -36,10 +35,9 @@ func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) (
 // @Summary login
 // @Success 200
 // @Failure 403
-// @Param params body models.User true "body of this request"
+// @Param params body datatransfers.LoginRequest true "body of this request"
 // @router /login [post]
-func (c *UserPublicController) Login(params *datatransfers.LoginRequest) (response JSONResponse) {
+func (c *UserPublicController) Login(params *datatransfers.LoginRequest) *JSONResponse {
 	user, err := c.userUcase.Login(params)
-	response.ReturnJSONResponse(user, err)
-	return
+	return c.ReturnJSONResponse(user, err)
 }

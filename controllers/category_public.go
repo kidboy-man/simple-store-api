@@ -5,13 +5,11 @@ import (
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
 	"simple-store-api/utils"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about object
 type CategoryPublicController struct {
-	beego.Controller
+	BaseController
 	categoryUcase usecase.CategoryUsecase
 }
 
@@ -27,7 +25,7 @@ func (c *CategoryPublicController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *CategoryPublicController) GetAll(limit, page int) (response JSONResponse) {
+func (c *CategoryPublicController) GetAll(limit, page int) *JSONResponse {
 	category, totalData, err := c.categoryUcase.GetAll(&datatransfers.CategoryQueryParams{
 		BaseQueryParams: datatransfers.BaseQueryParams{
 			Limit:    limit,
@@ -37,7 +35,5 @@ func (c *CategoryPublicController) GetAll(limit, page int) (response JSONRespons
 		},
 	})
 
-	response.SetPagination(c.Ctx, totalData, limit, page)
-	response.ReturnJSONResponse(category, err)
-	return
+	return c.ReturnJSONListResponse(category, totalData, limit, page, err)
 }

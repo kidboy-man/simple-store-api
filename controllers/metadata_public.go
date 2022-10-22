@@ -4,13 +4,11 @@ import (
 	"simple-store-api/conf"
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 // Operations about object
 type MetadataPublicController struct {
-	beego.Controller
+	BaseController
 	metadataUcase usecase.MetadataUsecase
 }
 
@@ -26,12 +24,12 @@ func (c *MetadataPublicController) Prepare() {
 // @Success 200
 // @Failure 403
 // @router / [get]
-func (c *MetadataPublicController) GetAll(limit, page int) (response JSONResponse) {
-	metadata, _, err := c.metadataUcase.GetAll(&datatransfers.BaseQueryParams{
+func (c *MetadataPublicController) GetAll(limit, page int) *JSONResponse {
+	metadata, totalData, err := c.metadataUcase.GetAll(&datatransfers.BaseQueryParams{
 		Limit: limit,
 		Page:  page,
 	})
 
-	response.ReturnJSONResponse(metadata, err)
-	return
+	return c.ReturnJSONListResponse(metadata, totalData, limit, page, err)
+
 }
