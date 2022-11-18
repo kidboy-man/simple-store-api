@@ -17,7 +17,7 @@ type JWTClaims struct {
 	jwt.StandardClaims
 	UID      uint   `json:"uid"`
 	Username string `json:"username"`
-	IsAdmin  bool   `json:"isAdmin"`
+	RoleID   uint   `json:"roleID"`
 }
 
 type JWTConfig struct {

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"simple-store-api/datatransfers"
 
+	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/pagination"
 )
@@ -32,6 +33,7 @@ func doReturnOK(response *JSONResponse, obj interface{}) {
 }
 
 func doReturnNotOK(response *JSONResponse, err error) {
+	logs.Error(err)
 	response.Success = false
 	response.Status = http.StatusInternalServerError
 	if v, ok := err.(*datatransfers.CustomError); ok {

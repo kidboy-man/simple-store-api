@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"simple-store-api/conf"
 	"simple-store-api/datatransfers"
 	usecase "simple-store-api/usecases"
@@ -26,7 +25,6 @@ func (c *UserPublicController) Prepare() {
 // @router /register [post]
 func (c *UserPublicController) Register(params *datatransfers.RegisterRequest) *JSONResponse {
 	err := c.userUcase.Register(params)
-	log.Println("ERROR Register:", err)
 	return c.ReturnJSONResponse(nil, err)
 }
 

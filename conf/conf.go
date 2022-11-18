@@ -1,11 +1,11 @@
 package conf
 
 import (
-	"log"
 	"os"
 	"strconv"
 	"time"
 
+	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/joho/godotenv"
 	"gorm.io/gorm"
@@ -19,8 +19,9 @@ type Config struct {
 }
 
 type JWTConfig struct {
-	JWTSignatureKey   string
-	JWTExpirationTime time.Duration
+	JWTSignatureKey      string
+	JWTAdminSignatureKey string
+	JWTExpirationTime    time.Duration
 }
 
 func init() {
@@ -30,11 +31,16 @@ func init() {
 	}
 
 	beego.BConfig.RunMode = os.Getenv("beego_runmode")
-	log.Println("beego.BConfig.RunMode", beego.BConfig.RunMode)
+	logs.Info("beego.BConfig.RunMode", beego.BConfig.RunMode)
 
 	AppConfig.JWTConfig.JWTSignatureKey = os.Getenv("jwt_signature_key")
 	if AppConfig.JWTConfig.JWTSignatureKey == "" {
 		panic("jwt_signature_key not set")
+	}
+
+	AppConfig.JWTConfig.JWTAdminSignatureKey = os.Getenv("jwt_admin_signature_key")
+	if AppConfig.JWTConfig.JWTAdminSignatureKey == "" {
+		panic("jwt_admin_signature_key not set")
 	}
 
 	jwtExpirationTimeStr := os.Getenv("jwt_expiration_time")
